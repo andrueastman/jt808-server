@@ -9,28 +9,28 @@ spring:
     hikari:
       minimum-idle: 8
       maximum-pool-size: 8
-      transaction-isolation: TRANSACTION_READ_UNCOMMITTED #降低事务隔离级别，提高写入速度
+      transaction-isolation: TRANSACTION_READ_UNCOMMITTED Reduce transaction isolation level and increase write speed
       data-source-properties:
         useSSL: false
         sslMode: disabled
         serverTimezone: GMT+8
         characterEncoding: UTF-8
-        allowPublicKeyRetrieval: true #MySQL8.0 允许特殊的握手往返，直接从服务器获取RSA公钥。
-        cachePrepStmts: true #是否缓存客户端的预编译语句(PreparedStatement)，检查预编译语句的可准备性？
-        cacheResultSetMetadata: true #是否应该缓存预编译语句的元数据(ResultSetMetaData)？
-        cacheServerConfiguration: true #是否应该缓存基于每个URL“SHOW VARIABLES”和“SHOW COLLATION”的结果？
-        prepStmtCacheSize: 64 #如果启用了预编译语句缓存，应缓存多少个？
-        prepStmtCacheSqlLimit: 2048 #如果启用了预编译语句缓存，将缓存解析的最大SQL长度是多少字节？
-        useServerPrepStmts: true #如果服务器支持的话，使用服务器端的预编译语句吗？
-        useLocalTransactionState: true #是否使用MySQL协议提供的事务状态来决定将commit()或rollback()发送到数据库？
-        useLocalSessionState: true #是否参考由Connection.setAutoCommit()和Connection.setTransactionIsolation()设置的自动提交和事务隔离等级以及协议维护的事务状态，而不是查询数据库或盲目地向数据库发送commit()或rollback()命令？
-        alwaysSendSetIsolation: false #当调用Connection.setTransactionIsolation()时，驱动程序是否应该始终与数据库通信？如果设置为false，则只有当请求的事务隔离等级与较新的、通过setTransactionIsolation()设置的最后一个值或在建立连接时从服务器读取的值不同时，驱动程序才会与数据库通信。注意，无论alwaysSendSetIsolation是如何设置的，useLocalSessionState=true都将强制执行与alwaysSendSetIsolation=false相同的行为。
-        elideSetAutoCommits: true #是否应该仅在服务器状态与Connection.setAutoCommit(boolean)所请求的状态不匹配时才发出“set autocommit = n”查询？
-        allowMultiQueries: true #是否允许使用“;”在一条语句中分隔多个语句。它不影响addBatch()和executeBatch()方法，它们依赖于rewriteBatchStatements。
-        rewriteBatchedStatements: true #当executeBatch()被调用时，驱动程序是否应该重写预编译语句以多值方式批量插入?
-        #        useCompression: true #与服务器通信时使用zlib压缩
-        enableQueryTimeouts: false #启用后，通过Statement.setQueryTimeout()设置的timeout将使用共享的java.util.Timer实例进行调度。即便查询没有超时，TimerTask也会在指定的timeout时间内使用内存，如果没有被驱动程序取消，这些内存直到timeout到期时才会被回收。高负载环境可能需要考虑禁用此功能。
-        maintainTimeStats: false #与服务器连接失败时，驱动程序是否应该维护各种内部计时器以启用空闲时间计算以及更多详细的错误消息？设为false会取消每个查询至少两次调用System.getCurrentTimeMillis()。
+        allowPublicKeyRetrieval: true #MySQL 8.0 allows a special handshake round trip to get the RSA public key directly from the server.
+        cachePrepStmts: true #Whether to cache the client's prepared statement (Prepared Statement) to check the prepareability of the prepared statement?
+        cacheResultSetMetadata: true #Should the metadata of prepared statements (Result Set Meta Data) be cached?
+        cacheServerConfiguration: true #Should results be cached based on each URL "SHOW VARIABLES" and "SHOW COLLATION"?
+        prepStmtCacheSize: 64 #If prepared statement caching is enabled, how many should be cached?
+        prepStmtCacheSqlLimit: 2048 #If the prepared statement cache is enabled, what is the maximum length of SQL parsed that will be cached in bytes?
+        useServerPrepStmts: true #Use server-side prepared statements if the server supports it?
+        useLocalTransactionState: true #Is the transaction state provided by the My SQL protocol used to decide whether to commit() or rollback() to the database?
+        useLocalSessionState: true #Whether to refer to the auto-commit and transaction isolation levels set by Connection.set Auto Commit() and Connection.set Transaction Isolation() and the transaction state maintained by the protocol, instead of querying the database or blindly sending commit() or rollback() to the database Order?
+        alwaysSendSetIsolation: false #Should the driver always communicate with the database when Connection.set Transaction Isolation() is called? If set to false,The driver will only communicate with the database if the requested transaction isolation level is different from the newer last value set via set Transaction Isolation() or read from the server when the connection was established. Note that regardless of how always Send Set Isolation is set,use Local Session State=true will enforce the same behavior as always Send Set Isolation=false.
+        elideSetAutoCommits: true #Should the "set autocommit=n" query be issued only if the server state does not match the state requested by Connection.setAutoCommit(boolean)?
+        allowMultiQueries: true #Whether to allow the use of ";" to separate multiple statements in one statement. It does not affect the add Batch() and execute Batch() methods, which rely on rewrite Batch Statements.
+        rewriteBatchedStatements: true #When execute Batch() is called, should the driver rewrite the prepared statement to batch insert with multiple values?
+        #        useCompression: true #Use zlib compression when communicating with the server
+        enableQueryTimeouts: false #When enabled, the timeout set via Statement.set Query Timeout() will be scheduled using the shared java.util.Timer instance. Even if the query does not time out, the Timer Task will use the memory within the specified timeout time. If it is not canceled by the driver, the memory will not be reclaimed until the timeout expires. High load environments may need to consider disabling this feature.
+        maintainTimeStats: false #Should the driver maintain various internal timers to enable idle time calculations and more detailed error messages when the connection to the server fails? Setting it to false will cancel calling System.get Current Time Millis() at least twice per query.
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   mvc:
@@ -61,7 +61,7 @@ jt-server:
     media-file:
       path: /home/kuzan/media_file
     alarm-file:
-      host: 127.0.0.1
+      host: 51.142.201.248
       port: 7612
 
   alarm-file:

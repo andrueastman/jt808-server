@@ -116,9 +116,9 @@ public class T8604 extends JTMessage {
     }
 
     public static class Point {
-        @Field(length = 4, desc = "纬度")
+        @Field(length = 4, desc = "latitude")
         private int latitude;
-        @Field(length = 4, desc = "经度")
+        @Field(length = 4, desc = "longitude")
         private int longitude;
 
         public Point() {

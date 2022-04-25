@@ -35,27 +35,27 @@ public class T8600 extends JTMessage {
     }
 
     public static class Circle {
-        @Field(length = 4, desc = "区域ID")
+        @Field(length = 4, desc = "area id")
         private int id;
-        @Field(length = 2, desc = "区域属性")
+        @Field(length = 2, desc = "regional properties")
         private int attribute;
-        @Field(length = 4, desc = "中心点纬度")
+        @Field(length = 4, desc = "center point latitude")
         private int latitude;
-        @Field(length = 4, desc = "中心点经度")
+        @Field(length = 4, desc = "center point longitude")
         private int longitude;
-        @Field(length = 4, desc = "半径(米)")
+        @Field(length = 4, desc = "Radius (m)")
         private int radius;
-        @Field(length = 6, charset = "BCD", desc = "起始时间(若区域属性0位为0则没有该字段)")
+        @Field(length = 6, charset = "BCD", desc = "Start time (if the area attribute 0 bit is 0, there is no such field)")
         private LocalDateTime startTime;
-        @Field(length = 6, charset = "BCD", desc = "结束时间(若区域属性0位为0则没有该字段)")
+        @Field(length = 6, charset = "BCD", desc = "End time (if the area attribute 0 bit is 0, there is no such field)")
         private LocalDateTime endTime;
-        @Field(length = 2, desc = "最高速度(公里每小时,若区域属性1位为0则没有该字段)")
+        @Field(length = 2, desc = "Maximum speed (kilometers per hour, if the area attribute 1 bit is 0, there is no field)")
         private Integer maxSpeed;
-        @Field(length = 1, desc = "超速持续时间(秒,若区域属性1位为0则没有该字段)")
+        @Field(length = 1, desc = "Overspeed duration (seconds, if the zone attribute 1 bit is 0, there is no field)")
         private Integer duration;
-        @Field(length = 2, desc = "夜间最高速度(公里每小时,若区域属性1位为0则没有该字段)", version = 1)
+        @Field(length = 2, desc = "Maximum speed at night (km/h, if the area attribute 1 bit is 0, there is no field)", version = 1)
         private Integer nightMaxSpeed;
-        @Field(lengthUnit = 2, desc = "区域名称", version = 1)
+        @Field(lengthUnit = 2, desc = "area name", version = 1)
         private String name;
 
         public Circle() {

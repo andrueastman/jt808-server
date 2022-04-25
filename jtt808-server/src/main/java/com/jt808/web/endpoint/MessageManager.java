@@ -82,11 +82,14 @@ public class MessageManager {
         request.setSerialNo(session.nextSerialNo());
 
         DeviceInfo device = SessionKey.getDeviceInfo(session);
-        int protocolVersion = device.getProtocolVersion();
-        if (protocolVersion > 0) {
-            request.setVersion(true);
-            request.setProtocolVersion(protocolVersion);
+        if(device != null) {
+            int protocolVersion = device.getProtocolVersion();
+            if (protocolVersion > 0) {
+                request.setVersion(true);
+                request.setProtocolVersion(protocolVersion);
+            }
         }
+
         if (request.getMessageId() == 0) {
             request.setMessageId(request.reflectMessageId());
         }

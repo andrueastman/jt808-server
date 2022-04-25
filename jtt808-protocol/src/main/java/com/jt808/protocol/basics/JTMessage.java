@@ -161,7 +161,7 @@ public class JTMessage implements Message {
     private static final int VERSION = 0b0100_0000_0000_0000;
     private static final int RESERVED = 0b1000_0000_0000_0000;
 
-    /** 消息体长度 */
+    /** message body length */
     public int getBodyLength() {
         return this.properties & BODY_LENGTH;
     }
@@ -171,7 +171,7 @@ public class JTMessage implements Message {
         this.properties |= bodyLength;
     }
 
-    /** 加密方式 */
+    /** Encryption */
     public int getEncryption() {
         return (properties & ENCRYPTION) >> 10;
     }
@@ -181,7 +181,7 @@ public class JTMessage implements Message {
         this.properties |= (encryption << 10);
     }
 
-    /** 是否分包 */
+    /** Whether to subcontract */
     public boolean isSubpackage() {
         return (properties & SUBPACKAGE) == SUBPACKAGE;
     }
@@ -193,7 +193,7 @@ public class JTMessage implements Message {
             this.properties ^= (properties & SUBPACKAGE);
     }
 
-    /** 是否有版本 */
+    /** Is there a version */
     public boolean isVersion() {
         return (properties & VERSION) == VERSION;
     }
@@ -205,7 +205,7 @@ public class JTMessage implements Message {
             this.properties ^= (properties & VERSION);
     }
 
-    /** 保留位 */
+    /** reserved bit */
     public boolean isReserved() {
         return (properties & RESERVED) == RESERVED;
     }

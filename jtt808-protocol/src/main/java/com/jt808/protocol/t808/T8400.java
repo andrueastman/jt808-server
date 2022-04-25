@@ -8,9 +8,9 @@ import com.jt808.protocol.commons.JT808;
 @Message(JT808.CallBack)
 public class T8400 extends JTMessage {
 
-    /** 通话 */
+    /** Normal */
     public static final int Normal = 0;
-    /** 监听 */
+    /** Listen */
     public static final int Listen = 1;
 
     @Field(length = 1, desc = "Type: 0. Call 1. Monitor")

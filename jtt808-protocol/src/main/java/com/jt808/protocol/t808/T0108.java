@@ -12,7 +12,7 @@ public class T0108 extends JTMessage {
     public static final int Terminal = 0;
     /** Road Transport Permit IC Card Reader */
     public static final int CardReader = 12;
-    /** 北斗卫星定位模块Beidou satellite positioning module */
+    /** Beidou satellite positioning module Beidou satellite positioning module */
     public static final int Beidou = 52;
 
     @Field(length = 1, desc = "Upgrade type: 0. Terminal 12. Road transport card IC card reader 52. Beidou satellite positioning module")

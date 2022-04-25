@@ -40,9 +40,9 @@ public class T8303 extends JTMessage {
     }
 
     public static class Info {
-        @Field(length = 1, desc = "信息类型")
+        @Field(length = 1, desc = "type of information")
         private int type;
-        @Field(lengthUnit = 2, desc = "信息名称")
+        @Field(lengthUnit = 2, desc = "message name")
         private String name;
 
         public Info() {

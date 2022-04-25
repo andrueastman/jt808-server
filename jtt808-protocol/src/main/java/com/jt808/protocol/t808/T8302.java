@@ -59,9 +59,9 @@ public class T8302 extends JTMessage {
 
     public static class Option {
 
-        @Field(length = 1, desc = "答案ID")
+        @Field(length = 1, desc = "Answer ID")
         private int id;
-        @Field(lengthUnit = 2, desc = "答案内容")
+        @Field(lengthUnit = 2, desc = "answer content")
         private String content;
 
         public Option() {

@@ -127,16 +127,16 @@ public class ParameterConverter extends MapSchema<Integer, Object> {
                 .addSchema(0x0100, NumberSchema.DWORD_LONG)//Bus channel 1 acquisition time interval (ms), 0 means no acquisition
                 .addSchema(0x0101, NumberSchema.WORD_INT)//Bus channel 1 upload time interval (s), 0 means no upload
                 .addSchema(0x0102, NumberSchema.DWORD_LONG)//Bus channel 2 acquisition time interval (ms), 0 means no acquisition
-                .addSchema(0x0103, NumberSchema.WORD_INT)//总线通道2 上传时间间隔(s),0 表示不上传
-                .addSchema(0x0110, ArraySchema.BYTES)//总线ID 单独采集设置
+                .addSchema(0x0103, NumberSchema.WORD_INT)//Bus channel 2 upload time interval (s), 0 means no upload
+                .addSchema(0x0110, ArraySchema.BYTES)//Bus ID individual acquisition settings
 
                 //JSATL12 start
-                .addSchema(ParamADAS.key, ParamADAS.SCHEMA)//高级驾驶辅助系统参数,见表4-10
-                .addSchema(ParamDSM.key, ParamDSM.SCHEMA)//驾驶员状态监测系统参数,见表4-11
-                .addSchema(ParamTPMS.key, ParamTPMS.SCHEMA)//胎压监测系统参数,见表4-12
-                .addSchema(ParamBSD.key, ParamBSD.SCHEMA)//盲区监测系统参数,见表4-13
-                //粤标
-                .addSchema(0xF370, NumberSchema.BYTE_INT)//智能视频协议版本信息,引入此智能视频协议版本信息方便平台进行版本控制初始版本是1,每次修订版本号都会递增（注：只支持获取,不支持设置）
+                .addSchema(ParamADAS.key, ParamADAS.SCHEMA)//Advanced driver assistance system parameters, see Table 4-10
+                .addSchema(ParamDSM.key, ParamDSM.SCHEMA)//For the parameters of the driver status monitoring system, see Table 4-11
+                .addSchema(ParamTPMS.key, ParamTPMS.SCHEMA)//For tire pressure monitoring system parameters, see Table 4-12
+                .addSchema(ParamBSD.key, ParamBSD.SCHEMA)//Blind spot monitoring system parameters, see Table 4-13
+                //Cantonese standard
+                .addSchema(0xF370, NumberSchema.BYTE_INT)//Smart video protocol version information, the introduction of this smart video protocol version information is convenient for the platform to perform version control. The initial version is 1, and the version number will be incremented each time it is revised (Note: only acquisition is supported, setting is not supported)
         ;
     }
 }

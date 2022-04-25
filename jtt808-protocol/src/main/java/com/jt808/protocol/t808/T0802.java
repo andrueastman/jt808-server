@@ -33,15 +33,15 @@ public class T0802 extends JTMessage implements Response {
     }
 
     public static class Item {
-        @Field(length = 4, desc = "多媒体数据ID")
+        @Field(length = 4, desc = "multimedia data ID")
         private int id;
-        @Field(length = 1, desc = "多媒体类型：0.图像 1.音频 2.视频")
+        @Field(length = 1, desc = "Multimedia Type: 0. Image 1. Audio 2. Video")
         private int type;
-        @Field(length = 1, desc = "通道ID")
+        @Field(length = 1, desc = "channel ID")
         private int channelId;
-        @Field(length = 1, desc = "事件项编码")
+        @Field(length = 1, desc = "event item code")
         private int event;
-        @Field(length = 28, desc = "位置信息")
+        @Field(length = 28, desc = "location information")
         private T0200 location;
 
         public Item() {

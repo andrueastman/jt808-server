@@ -1,7 +1,7 @@
 package com.jt808.commons.util;
 
 /**
- * 坐标系转换器
+ * Coordinate system converter
  */
 @FunctionalInterface
 public interface Converter {

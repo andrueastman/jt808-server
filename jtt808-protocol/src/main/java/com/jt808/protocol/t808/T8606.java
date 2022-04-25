@@ -76,27 +76,27 @@ public class T8606 extends JTMessage {
     }
 
     public static class Line {
-        @Field(length = 4, desc = "拐点ID")
+        @Field(length = 4, desc = "Inflection point ID")
         private int id;
-        @Field(length = 4, desc = "路段ID")
+        @Field(length = 4, desc = "Segment ID")
         private int routeId;
-        @Field(length = 4, desc = "纬度")
+        @Field(length = 4, desc = "Latitude")
         private int latitude;
-        @Field(length = 4, desc = "经度")
+        @Field(length = 4, desc = "Longitude")
         private int longitude;
-        @Field(length = 1, desc = "宽度(米)")
+        @Field(length = 1, desc = "Width (m)")
         private int width;
-        @Field(length = 1, desc = "属性")
+        @Field(length = 1, desc = "attribute")
         private int attribute;
-        @Field(length = 2, desc = "路段行驶过长阈值(秒,若区域属性0位为0则没有该字段)")
+        @Field(length = 2, desc = "The road section is too long to drive the threshold (seconds, if the area attribute 0 bit is 0, there is no such field)")
         private Integer upperLimit;
-        @Field(length = 2, desc = "路段行驶不足阈值(秒,若区域属性0位为0则没有该字段)")
+        @Field(length = 2, desc = "Insufficient driving threshold of the road segment (seconds, if the 0 bit of the area attribute is 0, there is no such field)")
         private Integer lowerLimit;
-        @Field(length = 2, desc = "路段最高速度(公里每小时,若区域属性1位为0则没有该字段)")
+        @Field(length = 2, desc = "The maximum speed of the road section (km/h, if the area attribute 1 bit is 0, there is no such field)")
         private Integer maxSpeed;
-        @Field(length = 1, desc = "路段超速持续时间(秒,若区域属性1位为0则没有该字段)")
+        @Field(length = 1, desc = "Duration of speeding on the road section (seconds, if the area attribute 1 bit is 0, there is no such field)")
         private Integer duration;
-        @Field(length = 2, desc = "夜间最高速度(公里每小时,若区域属性1位为0则没有该字段)", version = 1)
+        @Field(length = 2, desc = "Maximum speed at night (km/h, if the area attribute 1 bit is 0, there is no field)", version = 1)
         private Integer nightMaxSpeed;
 
         public Line() {

@@ -20,7 +20,7 @@ public class DateUtils {
         try {
             return LocalDateTime.parse(str, yyMMddHHmmss);
         } catch (Exception e) {
-            log.error("日期格式错误：[{}]", str);
+            log.error("Incorrect date format: [{}]", str);
             return null;
         }
     }

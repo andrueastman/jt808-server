@@ -1,5 +1,11 @@
 package com.jt808.web.endpoint;
 
+import com.jt808.commons.model.APIResult;
+import com.jt808.commons.util.DateUtils;
+import com.jt808.protocol.commons.transform.AttributeKey;
+import com.jt808.protocol.commons.transform.attribute.AlarmDSM;
+import com.jt808.protocol.jsatl12.AlarmId;
+import com.jt808.protocol.jsatl12.T9208;
 import io.github.yezhihao.netmc.core.annotation.Async;
 import io.github.yezhihao.netmc.core.annotation.AsyncBatch;
 import io.github.yezhihao.netmc.core.annotation.Endpoint;
@@ -8,6 +14,7 @@ import io.github.yezhihao.netmc.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.jt808.protocol.basics.JTMessage;
 import com.jt808.protocol.commons.JT808;
@@ -15,10 +22,12 @@ import com.jt808.protocol.t808.*;
 import com.jt808.web.model.enums.SessionKey;
 import com.jt808.web.model.vo.DeviceInfo;
 import com.jt808.web.service.FileService;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.UUID;
 
 import static com.jt808.protocol.commons.JT808.*;
 
@@ -30,6 +39,15 @@ public class JT808Endpoint {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private MessageManager messageManager;
+
+    @Value("${jt-server.jt808.alarm-file.host}")
+    private String host;
+
+    @Value("${jt-server.jt808.alarm-file.port}")
+    private int port;
 
     @Mapping(types = TerminalGeneralAnswer, desc = "Terminal general answer")
     public Object generalResponse(T0001 message, Session session) {
@@ -107,6 +125,30 @@ public class JT808Endpoint {
     @AsyncBatch(poolSize = 2, maxElements = 4000, maxWait = 1000)
     @Mapping(types = LocationInformationReport, desc = "location information report")
     public void locationReport(List<T0200> list) {
+        for (T0200 information:list) {
+            if(information.getAttributes().containsKey(AttributeKey.AlarmDSM)){
+                log.info("Found alarm event");
+                AlarmDSM alarmDSM = (AlarmDSM)information.getAttributes().get(AttributeKey.AlarmDSM);
+                if(alarmDSM != null){
+                    log.info("Requesting for image upload ... ");
+                    T9208 request = new T9208();
+                    request.setIp(host);
+                    request.setTcpPort(port);
+                    request.setUdpPort(0);
+                    request.setAlarmId(new AlarmId(alarmDSM.getAlarmId().getDeviceId(), alarmDSM.getAlarmId().getDateTime(), alarmDSM.getSerialNo(), alarmDSM.getFileTotal(), 0));
+                    request.setPlatformAlarmId(UUID.randomUUID().toString().replaceAll("-", ""));
+
+                    Mono<APIResult<T0001>> response = messageManager.requestR(information.getClientId(), request, T0001.class);
+                    response.subscribe( (value) -> {
+                        log.info("Response status: "+ value.isSuccess());
+                        log.info("Response message: "+ value.getMsg());
+                    });
+
+                }
+
+
+            }
+        }
     }
 
     @Mapping(types = BulkUploadOfPositioningData, desc = "Bulk upload of positioning data")

@@ -40,11 +40,11 @@ public class T8401 extends JTMessage {
     }
 
     public static class Contact {
-        @Field(length = 1, desc = "标志")
+        @Field(length = 1, desc = "sign")
         private int sign;
-        @Field(lengthUnit = 1, desc = "电话号码")
+        @Field(lengthUnit = 1, desc = "phoneNumber")
         private String phone;
-        @Field(lengthUnit = 1, desc = "联系人")
+        @Field(lengthUnit = 1, desc = "name")
         private String name;
 
         public Contact() {

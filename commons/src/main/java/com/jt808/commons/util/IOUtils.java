@@ -76,7 +76,7 @@ public class IOUtils {
             ByteBuffer buffer = ByteBuffer.allocate(1024);
 
             while (ifc.read(buffer) != -1) {
-                buffer.flip();//切换为读模式 设置limit为position，并重置position为0
+                buffer.flip();//Switch to read mode, set limit to position, and reset position to 0
                 ofc.write(buffer);
                 buffer.clear();
             }

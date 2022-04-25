@@ -8,7 +8,7 @@ import com.jt808.protocol.commons.JT808;
 @Message(JT808.TerminalAuthentication)
 public class T0102 extends JTMessage {
 
-    /** 终端重连后上报鉴权码 */
+    /** After the terminal reconnects, report the authentication code */
     @Field(desc = "Authentication code", version = {-1, 0})
     @Field(lengthUnit = 1, desc = "Authentication code", version = 1)
     private String token;

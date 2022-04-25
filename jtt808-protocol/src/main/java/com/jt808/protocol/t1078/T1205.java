@@ -35,23 +35,23 @@ public class T1205 extends JTMessage implements Response {
 
     public static class Item {
 
-        @Field(length = 1, desc = "逻辑通道号")
+        @Field(length = 1, desc = "logical channel number")
         private int channelNo;
-        @Field(length = 6, charset = "BCD", desc = "开始时间")
+        @Field(length = 6, charset = "BCD", desc = "Starting time")
         private LocalDateTime startTime;
-        @Field(length = 6, charset = "BCD", desc = "结束时间")
+        @Field(length = 6, charset = "BCD", desc = "end time")
         private LocalDateTime endTime;
-        @Field(length = 4, desc = "报警标志0~31(参考808协议文档报警标志位定义)")
+        @Field(length = 4, desc = "Alarm flag 0~31 (refer to the 808 protocol document for the definition of alarm flag bits)")
         private int warnBit1;
-        @Field(length = 4, desc = "报警标志32~63")
+        @Field(length = 4, desc = "Alarm signs 32~63")
         private int warnBit2;
-        @Field(length = 1, desc = "音视频资源类型")
+        @Field(length = 1, desc = "Audio and video resource types")
         private int mediaType;
-        @Field(length = 1, desc = "码流类型")
+        @Field(length = 1, desc = "stream type")
         private int streamType = 1;
-        @Field(length = 1, desc = "存储器类型")
+        @Field(length = 1, desc = "memory type")
         private int storageType;
-        @Field(length = 4, desc = "文件大小")
+        @Field(length = 4, desc = "file size")
         private long size;
 
         public Item() {

@@ -9,12 +9,12 @@ package com.jt808.commons.util;
 public class CoordTransform {
 
     /**
-     * 地球半径,单位米（北京54 长半轴）
+     * Earth radius, in meters (Beijing 54 semi-major axis)
      */
     private static final double RADIUS = 6378245;
 
     /**
-     * 扁率
+     * Flattening
      */
     private static final double EE = 0.00669342162296594323;
 
@@ -121,10 +121,10 @@ public class CoordTransform {
     }
 
     /**
-     * 判断是否在国内，不在国内则不做偏移
+     * Judging whether it is in the country, if not in the country, no offset
      */
     public static boolean out_of_china(double lng, double lat) {
-        // 纬度3.86~53.55,经度73.66~135.05
+        // Latitude 3.86~53.55, Longitude 73.66~135.05
         return !(lng > 73.66 && lng < 135.05 && lat > 3.86 && lat < 53.55);
     }
 }

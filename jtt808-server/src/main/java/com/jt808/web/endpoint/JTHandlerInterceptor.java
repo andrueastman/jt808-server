@@ -74,12 +74,15 @@ public class JTHandlerInterceptor implements HandlerInterceptor<JTMessage> {
         }
         if (!session.isRegistered()) {
             log.info("{}unregistered device<<<<-{}", session, request);
+            // TODO fix Hack query device for its its device ID
+            session.register(request);
+
             return true;
         }
         return true;
     }
 
-    /** 调用之后 */
+    /** after calling */
     @Override
     public void afterHandle(JTMessage request, JTMessage response, Session session) {
         if (response != null) {

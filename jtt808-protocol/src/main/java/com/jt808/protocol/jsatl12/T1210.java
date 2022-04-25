@@ -64,9 +64,9 @@ public class T1210 extends JTMessage {
     }
 
     public static class Item {
-        @Field(lengthUnit = 1, desc = "文件名称")
+        @Field(lengthUnit = 1, desc = "File name")
         private String name;
-        @Field(length = 4, desc = "文件大小")
+        @Field(length = 4, desc = "File size")
         private long size;
 
         public String getName() {

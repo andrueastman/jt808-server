@@ -30,7 +30,7 @@ public class Parameters {
     private ParamVideoSingle paramVideoSingle;
     @Schema(description = "Blind spot monitoring system parameters (Su Biao)")
     private ParamBSD paramBSD;
-    @Schema(description = "胎压监测系统参数(苏标)")
+    @Schema(description = "Tire pressure monitoring system parameters (Su Biao)")
     private ParamTPMS paramTPMS;
     @Schema(description = "Driver Condition Monitoring System Parameters (Su Biao)")
     private ParamDSM paramDSM;

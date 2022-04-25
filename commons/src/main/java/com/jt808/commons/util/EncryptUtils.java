@@ -23,7 +23,7 @@ public class EncryptUtils {
     }
 
     /**
-     * 初始化密钥
+     * initialization key
      *
      * @param privateKey The private key AES fixed format for 128/192/256 bits. Namely: 16/24/32 bytes. DES fixed format for 128 bits, or 8 bytes.
      * @param initVector AES, an initialization vector is 16 bytes. DES is 8 bytes
