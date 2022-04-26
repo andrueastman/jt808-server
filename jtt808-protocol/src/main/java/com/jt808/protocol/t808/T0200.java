@@ -22,7 +22,7 @@ public class T0200 extends JTMessage {
     private int longitude;
     @Field(length = 2, desc = "Elevation (m)")
     private int altitude;
-    @Field(length = 2, desc = "Speed (110 km/h)")
+    @Field(length = 2, desc = "Speed (1/10 km/h)")
     private int speed;
     @Field(length = 2, desc = "direction")
     private int direction;

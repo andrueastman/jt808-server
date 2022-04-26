@@ -3,11 +3,9 @@ package com.jt808.web.controller;
 import io.github.yezhihao.netmc.session.Session;
 import io.github.yezhihao.netmc.session.SessionManager;
 import io.github.yezhihao.protostar.SchemaManager;
-import io.github.yezhihao.protostar.util.Explain;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +16,6 @@ import com.jt808.protocol.codec.MultiPacketDecoder;
 import com.jt808.web.config.WebLogAdapter;
 import com.jt808.web.model.vo.DeviceInfo;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -27,13 +23,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
-public class OtherController {
+public class ServerController {
 
     private final SessionManager sessionManager;
 
     private final JTMessageDecoder decoder;
 
-    public OtherController(SessionManager sessionManager, SchemaManager schemaManager) {
+    public ServerController(SessionManager sessionManager, SchemaManager schemaManager) {
         this.sessionManager = sessionManager;
         this.decoder = new MultiPacketDecoder(schemaManager);
     }
@@ -68,23 +64,7 @@ public class OtherController {
         return APIResult.SUCCESS;
     }
 
-    @Operation(summary = "808 protocol analysis tool")
-    @RequestMapping(value = "message/explain", method = {RequestMethod.POST, RequestMethod.GET})
-    public String decode(@Parameter(description = "hexadecimal message") @RequestParam String hex) {
-        Explain explain = new Explain();
-        hex = hex.replace(" ", "");
-        String[] lines = hex.split("\n");
-        for (String line : lines) {
-            String[] msgs = line.split("7e7e");
-            for (String msg : msgs) {
-                ByteBuf byteBuf = Unpooled.wrappedBuffer(ByteBufUtil.decodeHexDump(msg));
-                decoder.decode(byteBuf, explain);
-            }
-        }
-        return explain.toString();
-    }
-
-    @Operation(summary = "original message sent")
+    @Operation(summary = "Send raw message")
     @PostMapping("terminal/raw")
     public String postRaw(@Parameter(description = "Terminal phone number") @RequestParam String clientId,
                           @Parameter(description = "hexadecimal message") @RequestParam String message) {

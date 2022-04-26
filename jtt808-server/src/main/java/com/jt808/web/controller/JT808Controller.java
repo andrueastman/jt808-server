@@ -37,29 +37,6 @@ public class JT808Controller {
     @Value("${jt-server.jt808.alarm-file.port}")
     private int port;
 
-    @Operation(summary = "9208 Alarm attachment upload instruction")
-    @GetMapping("alarm_file/upload")
-    public Mono<APIResult<T0001>> alarmFileUpload(@Parameter(description = "Terminal phone number") @RequestParam String clientId,
-                                                  @Parameter(description = "Time(YYMMDDHHMMSS)") @RequestParam String dateTime,
-                                                  @Parameter(description = "Alarm serial number") @RequestParam int serialNo,
-                                                  @Parameter(description = "Number of attachments") @RequestParam int fileTotal,
-                                                  @Parameter(description = "IP address") String host,
-                                                  @Parameter(description = "The port number") Integer port) {
-
-        host = StrUtils.isBlank(host) ? this.host : host;
-        port = port == null ? this.port : port;
-
-        T9208 request = new T9208();
-        request.setIp(host);
-        request.setTcpPort(port);
-        request.setUdpPort(0);
-        request.setAlarmId(new AlarmId(clientId, DateUtils.parse(dateTime), serialNo, fileTotal, 0));
-        request.setPlatformAlarmId(UUID.randomUUID().toString().replaceAll("-", ""));
-
-        Mono<APIResult<T0001>> response = messageManager.requestR(clientId, request, T0001.class);
-        return response;
-    }
-
     @Operation(summary = "8103 Set terminal parameters")
     @PutMapping("parameters")
     public Mono<APIResult<T0001>> setParameters(@Parameter(description = "Terminal phone number") @RequestParam String clientId, @RequestBody Parameters parameters) {
@@ -132,7 +109,7 @@ public class JT808Controller {
         return response;
     }
 
-    @Operation(summary = "8302 ISSUE A QUESTION")
+    @Operation(summary = "8302 Issue a question")
     @PostMapping("info/question")
     public Mono<APIResult<T0001>> sendQuestion(@Parameter(description = "Terminal phone number") @RequestParam String clientId, @RequestBody T8302 request) {
         Mono<APIResult<T0001>> response = messageManager.requestR(clientId, request, T0001.class);
