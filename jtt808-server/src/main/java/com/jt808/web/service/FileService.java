@@ -6,6 +6,8 @@ import com.jt808.protocol.jsatl12.T1210;
 import com.jt808.protocol.jsatl12.T1211;
 import com.jt808.protocol.t808.T0801;
 
+import java.io.File;
+
 public interface FileService {
 
     boolean saveMediaFile(T0801 message);
@@ -18,4 +20,5 @@ public interface FileService {
 
     int[] checkFile(AlarmId alarmId, T1211 fileInfo);
 
+    File getFile(AlarmId alarmId,T1211 fileInfo);
 }

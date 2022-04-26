@@ -59,12 +59,16 @@ jt-server:
       udp: 7611
       tcp: 7611
     media-file:
-      path: /home/kuzan/media_file
+      path: /home/jt808/media_file
     alarm-file:
-      host: 51.142.201.248
+      host: 20.87.8.186
       port: 7612
-
   alarm-file:
     enable: true
     port: 7612
-    path: /home/kuzan/alarm_file
+    path: /home/jt808/alarm_file
+
+blob:
+  connection-string: DefaultEndpointsProtocol=https;AccountName=jt808;AccountKey=8uExqj/qRo58emVrpn9zkACocoMaFqycQheBzLb9rjfp2JQZRXMacaAwWjo/f7oQ+dzP6OusC32lXfJmF+amtA==;EndpointSuffix=core.windows.net
+  container-name: alerts
+

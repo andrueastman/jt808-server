@@ -1,5 +1,6 @@
 package com.jt808.web.endpoint;
 
+import com.azure.storage.blob.BlobClientBuilder;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.yezhihao.netmc.core.annotation.Endpoint;
@@ -12,6 +13,7 @@ import com.jt808.protocol.commons.JSATL12;
 import com.jt808.protocol.jsatl12.*;
 import com.jt808.web.service.FileService;
 
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,6 +25,9 @@ public class JSATL12Endpoint {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    BlobClientBuilder blobClientBuilder;
 
     private final Cache<String, Map<String, AlarmId>> cache = Caffeine.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build();
 
@@ -88,10 +93,30 @@ public class JSATL12Endpoint {
         if (items == null) {
             alarmIdMap.remove(message.getName());
             result.setResult(0);
+            // TODO move file to blob storage
+            File savedFile = fileService.getFile(alarmId,message);
+            String fileName = getDir(alarmId) + message.getName();
+            try {
+                final InputStream targetStream = new DataInputStream(new FileInputStream(savedFile));
+                blobClientBuilder.blobName(fileName).buildClient().upload(targetStream, savedFile.length());
+
+                savedFile.delete();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
         } else {
             result.setItems(items);
             result.setResult(1);
         }
         return result;
+    }
+
+    private String getDir(AlarmId alarmId) {
+        StringBuilder sb = new StringBuilder(55);
+        //sb.append(alarmFileRoot).append('/');
+        sb.append(alarmId.getDeviceId()).append('/');
+        sb.append(alarmId.getDateTime()).append('_').append(alarmId.getSerialNo()).append('/');
+        return sb.toString();
     }
 }

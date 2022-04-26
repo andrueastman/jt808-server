@@ -74,7 +74,7 @@ public class FileServiceImpl implements FileService {
                 r = new RandomAccessFile(file, "rw");
                 r.setLength(fileInfo.getSize());
             } catch (IOException e) {
-                log.error("Create an alarm file", e);
+                log.error("Can't create an alarm file", e);
             } finally {
                 IOUtils.close(r);
             }
@@ -158,6 +158,13 @@ public class FileServiceImpl implements FileService {
             return null;
         }
         return StrUtils.toArray(result);
+    }
+
+    @Override
+    public File getFile(AlarmId alarmId, T1211 fileInfo) {
+        String dir = getDir(alarmId);
+        File file = new File(dir + fileInfo.getName());
+        return file;
     }
 
     /** Multimedia data upload */
