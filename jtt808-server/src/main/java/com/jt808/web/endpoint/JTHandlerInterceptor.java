@@ -42,7 +42,6 @@ public class JTHandlerInterceptor implements HandlerInterceptor<JTMessage> {
         response.setResponseMessageId(request.getMessageId());
         response.setResultCode(T0001.Success);
 
-//        log.info("{}\n<<<<-{}\n>>>>-{}", session, request, response);
         return response;
     }
 
@@ -93,6 +92,5 @@ public class JTHandlerInterceptor implements HandlerInterceptor<JTMessage> {
                 response.setMessageId(response.reflectMessageId());
             }
         }
-//        log.info("{}\n<<<<-{}\n>>>>-{}", session, request, response);
     }
 }

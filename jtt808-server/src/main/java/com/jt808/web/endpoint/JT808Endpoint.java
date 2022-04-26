@@ -126,10 +126,11 @@ public class JT808Endpoint {
     @Mapping(types = LocationInformationReport, desc = "location information report")
     public void locationReport(List<T0200> list) {
         for (T0200 information:list) {
+            // TODO store location information in database
             if(information.getAttributes().containsKey(AttributeKey.AlarmDSM)){
-                log.info("Found alarm event");
+                log.info("Found alarm event for Driver status monitoring");
                 AlarmDSM alarmDSM = (AlarmDSM)information.getAttributes().get(AttributeKey.AlarmDSM);
-                if(alarmDSM != null){
+                if(alarmDSM != null){ // FIXME this if is unnecessary
                     log.info("Requesting for image upload ... ");
                     T9208 request = new T9208();
                     request.setIp(host);
@@ -143,7 +144,6 @@ public class JT808Endpoint {
                         log.info("Response status: "+ value.isSuccess());
                         log.info("Response message: "+ value.getMsg());
                     });
-
                 }
 
 
@@ -153,6 +153,7 @@ public class JT808Endpoint {
 
     @Mapping(types = BulkUploadOfPositioningData, desc = "Bulk upload of positioning data")
     public void locationBatchReport(T0704 message) {
+        // TODO iterate through items to handle in common way with locationReport
     }
 
     @Mapping(types = {LocationInformationQueryResponse, VehicleControlResponse}, desc = "Location information query response/vehicle control response")
@@ -183,7 +184,7 @@ public class JT808Endpoint {
     }
 
     @Mapping(types = ElectronicWaybillReporting, desc = "Electronic Waybill Reporting")
-    public void ewaybillReport(JTMessage message, Session session) {
+    public void eWayBillReport(JTMessage message, Session session) {
     }
 
     @Mapping(types = CollectAndReportDriverIdentityInformation, desc = "Collect and report driver identity information")
@@ -230,7 +231,7 @@ public class JT808Endpoint {
     }
 
     @Mapping(types = DataUplinkTransparentTransmission, desc = "Data uplink transparent transmission")
-    public void passthrough(T0900 message, Session session) {
+    public void passThrough(T0900 message, Session session) {
     }
 
     @Mapping(types = DataCompressionReport, desc = "data compression report")

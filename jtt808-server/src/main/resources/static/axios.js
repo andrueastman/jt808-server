@@ -44,7 +44,7 @@ if (defaultOption.dataType === 'json') {
     defaultOption.headers['Content-Type'] = 'application/json'
 }
 if (!defaultOption.url || !defaultOption.type || !defaultOption.dataType || defaultOption.async === undefined) {
-    alert('参数有误');
+    alert('wrong parameter');
     return;
 }
 
@@ -54,7 +54,7 @@ if ('withCredentials' in xhr) {
 } else if(typeof XDomainRequest != 'undefined'){
     xhr = new XDomainRequest();
 } else {
-    alert('不支持[XMLHttpRequest、XDomainRequest]请求！')
+    alert('[XML Http Request, X Domain Request] requests are not supported!')
     return;
 }
 
@@ -114,7 +114,7 @@ if (defaultOption.async && defaultOption.timeout) {
 // Send a request. If it is a simple request, the request parameter should be null. Otherwise, the request parameter type needs to correspond to the request header Content-Type
 xhr.send(param ? null : axios.getQueryData(defaultOption.data));
 },
-// 把参数data转为url查询参数
+// Convert parameter data to url query parameter
 getUrlParam: (url, data) => {
     if (!data) {
         return '';
@@ -141,7 +141,7 @@ getQueryString: (data) => {
     if (data instanceof Object) {
         Object.keys(data).forEach(key => {
             let val = data[key];
-        // todo 参数Date类型需要根据后台api酌情处理
+        // todo The parameter Date type needs to be handled as appropriate according to the background api
         if (val instanceof Date) {
             // val = dateFormat(val, 'yyyy-MM-dd hh:mm:ss');
         }

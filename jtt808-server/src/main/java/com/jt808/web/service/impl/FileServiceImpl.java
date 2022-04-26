@@ -59,6 +59,7 @@ public class FileServiceImpl implements FileService {
         for (T1210.Item item : items)
             fileList.append(item.getName()).append('\t').append(item.getSize()).append(IOUtils.Separator);
 
+        // TODO we should remove this
         IOUtils.write(new File(dir, "fs.txt"), fileList.toString());
     }
 

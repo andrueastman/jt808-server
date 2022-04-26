@@ -93,7 +93,7 @@ public class JSATL12Endpoint {
         if (items == null) {
             alarmIdMap.remove(message.getName());
             result.setResult(0);
-            // TODO move file to blob storage
+            // move file to blob storage
             File savedFile = fileService.getFile(alarmId,message);
             String fileName = getDir(alarmId) + message.getName();
             try {
@@ -101,6 +101,8 @@ public class JSATL12Endpoint {
                 blobClientBuilder.blobName(fileName).buildClient().upload(targetStream, savedFile.length());
 
                 savedFile.delete();
+
+                // TODO save file info to database
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -114,7 +116,6 @@ public class JSATL12Endpoint {
 
     private String getDir(AlarmId alarmId) {
         StringBuilder sb = new StringBuilder(55);
-        //sb.append(alarmFileRoot).append('/');
         sb.append(alarmId.getDeviceId()).append('/');
         sb.append(alarmId.getDateTime()).append('_').append(alarmId.getSerialNo()).append('/');
         return sb.toString();
