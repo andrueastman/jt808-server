@@ -1,11 +1,15 @@
 package com.jt808.web.endpoint;
 
+import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobClientBuilder;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.jt808.web.controller.ExceptionController;
 import io.github.yezhihao.netmc.core.annotation.Endpoint;
 import io.github.yezhihao.netmc.core.annotation.Mapping;
 import io.github.yezhihao.netmc.session.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.jt808.commons.util.StrUtils;
@@ -22,6 +26,8 @@ import java.util.concurrent.TimeUnit;
 @Endpoint
 @Component
 public class JSATL12Endpoint {
+
+    private static final Logger log = LoggerFactory.getLogger(JSATL12Endpoint.class);
 
     @Autowired
     private FileService fileService;
@@ -98,10 +104,13 @@ public class JSATL12Endpoint {
             String fileName = getDir(alarmId) + message.getName();
             try {
                 final InputStream targetStream = new DataInputStream(new FileInputStream(savedFile));
-                blobClientBuilder.blobName(fileName).buildClient().upload(targetStream, savedFile.length());
-
+                BlobClient blobClient = blobClientBuilder.blobName(fileName).buildClient();
+                // upload the file
+                blobClient.upload(targetStream, savedFile.length());
+                // delete the local copy
                 savedFile.delete();
 
+                log.info("File uploaded to: " + blobClient.getBlobUrl());
                 // TODO save file info to database
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
