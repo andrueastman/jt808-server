@@ -5,6 +5,8 @@ import com.azure.storage.blob.BlobClientBuilder;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.jt808.web.controller.ExceptionController;
+import com.jt808.web.model.vo.AlarmItem;
+import com.jt808.web.repository.AlarmRepository;
 import io.github.yezhihao.netmc.core.annotation.Endpoint;
 import io.github.yezhihao.netmc.core.annotation.Mapping;
 import io.github.yezhihao.netmc.session.Session;
@@ -34,6 +36,9 @@ public class JSATL12Endpoint {
 
     @Autowired
     BlobClientBuilder blobClientBuilder;
+
+    @Autowired
+    AlarmRepository alarmRepository;
 
     private final Cache<String, Map<String, AlarmId>> cache = Caffeine.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build();
 
@@ -111,7 +116,13 @@ public class JSATL12Endpoint {
                 savedFile.delete();
 
                 log.info("File uploaded to: " + blobClient.getBlobUrl());
-                // TODO save file info to database
+                AlarmItem alarmItem = alarmRepository.findItemByAlarmId(AlarmItem.calculateID(alarmId.getDeviceId(),alarmId.getDateTime(),alarmId.getSerialNo()));
+
+                if(alarmItem != null){
+                    alarmItem.getMediaUrls().add(blobClient.getBlobUrl());
+                    alarmRepository.save(alarmItem);
+                    log.info("Updated alarm item with blob url: " + blobClient.getBlobUrl());
+                }
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }

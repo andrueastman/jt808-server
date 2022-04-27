@@ -1,36 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:h2:file:~/.h2/jt;auto_server=true;ignorecase=true;mode=mysql
-    username: root
-    password: 123
-    driver-class-name: org.h2.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    initialization-mode: always
-    hikari:
-      minimum-idle: 8
-      maximum-pool-size: 8
-      transaction-isolation: TRANSACTION_READ_UNCOMMITTED Reduce transaction isolation level and increase write speed
-      data-source-properties:
-        useSSL: false
-        sslMode: disabled
-        serverTimezone: GMT+8
-        characterEncoding: UTF-8
-        allowPublicKeyRetrieval: true #MySQL 8.0 allows a special handshake round trip to get the RSA public key directly from the server.
-        cachePrepStmts: true #Whether to cache the client's prepared statement (Prepared Statement) to check the prepareability of the prepared statement?
-        cacheResultSetMetadata: true #Should the metadata of prepared statements (Result Set Meta Data) be cached?
-        cacheServerConfiguration: true #Should results be cached based on each URL "SHOW VARIABLES" and "SHOW COLLATION"?
-        prepStmtCacheSize: 64 #If prepared statement caching is enabled, how many should be cached?
-        prepStmtCacheSqlLimit: 2048 #If the prepared statement cache is enabled, what is the maximum length of SQL parsed that will be cached in bytes?
-        useServerPrepStmts: true #Use server-side prepared statements if the server supports it?
-        useLocalTransactionState: true #Is the transaction state provided by the My SQL protocol used to decide whether to commit() or rollback() to the database?
-        useLocalSessionState: true #Whether to refer to the auto-commit and transaction isolation levels set by Connection.set Auto Commit() and Connection.set Transaction Isolation() and the transaction state maintained by the protocol, instead of querying the database or blindly sending commit() or rollback() to the database Order?
-        alwaysSendSetIsolation: false #Should the driver always communicate with the database when Connection.set Transaction Isolation() is called? If set to false,The driver will only communicate with the database if the requested transaction isolation level is different from the newer last value set via set Transaction Isolation() or read from the server when the connection was established. Note that regardless of how always Send Set Isolation is set,use Local Session State=true will enforce the same behavior as always Send Set Isolation=false.
-        elideSetAutoCommits: true #Should the "set autocommit=n" query be issued only if the server state does not match the state requested by Connection.setAutoCommit(boolean)?
-        allowMultiQueries: true #Whether to allow the use of ";" to separate multiple statements in one statement. It does not affect the add Batch() and execute Batch() methods, which rely on rewrite Batch Statements.
-        rewriteBatchedStatements: true #When execute Batch() is called, should the driver rewrite the prepared statement to batch insert with multiple values?
-        #        useCompression: true #Use zlib compression when communicating with the server
-        enableQueryTimeouts: false #When enabled, the timeout set via Statement.set Query Timeout() will be scheduled using the shared java.util.Timer instance. Even if the query does not time out, the Timer Task will use the memory within the specified timeout time. If it is not canceled by the driver, the memory will not be reclaimed until the timeout expires. High load environments may need to consider disabling this feature.
-        maintainTimeStats: false #Should the driver maintain various internal timers to enable idle time calculations and more detailed error messages when the connection to the server fails? Setting it to false will cancel calling System.get Current Time Millis() at least twice per query.
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   mvc:
@@ -40,6 +8,10 @@ spring:
       time: HH:mm:ss
     pathmatch:
       matching-strategy: ant_path_matcher
+  data:
+    mongodb:
+      uri: mongodb+srv://ntsa_azure:Dbj5h4EVBbDhQxY@dil0001.dx94z.mongodb.net/ntsa_azure?retryWrites=true&w=majority
+      database: ntsa_azure
 
 mybatis:
   configuration:

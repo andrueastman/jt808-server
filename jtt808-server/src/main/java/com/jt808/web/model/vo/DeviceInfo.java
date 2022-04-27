@@ -1,20 +1,23 @@
 package com.jt808.web.model.vo;
 
 import com.jt808.protocol.commons.Charsets;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.*;
 import java.time.LocalDate;
 
 import static io.github.yezhihao.protostar.util.DateTool.BCD;
 
+@Document("device")
 public class DeviceInfo {
-
+    /** Device ID */
+    @Id
+    protected String deviceId;
     /** Date of issue */
     protected LocalDate issuedAt;
     /** reserved field */
     protected byte reserved;
-    /** Device ID */
-    protected String deviceId;
     /** Terminal ID */
     protected String clientId;
     /** Institution ID */

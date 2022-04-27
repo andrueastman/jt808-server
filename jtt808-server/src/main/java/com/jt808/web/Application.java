@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -14,10 +15,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableScheduling
 @EnableSwagger2
 @EnableWebSocketMessageBroker
+@EnableMongoRepositories
 @MapperScan("com.jt808.web.mapper")
 @SpringBootApplication
 public class Application {
-
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {

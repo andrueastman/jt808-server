@@ -1,11 +1,15 @@
 package com.jt808.web.endpoint;
 
 import com.jt808.commons.model.APIResult;
-import com.jt808.commons.util.DateUtils;
 import com.jt808.protocol.commons.transform.AttributeKey;
 import com.jt808.protocol.commons.transform.attribute.AlarmDSM;
 import com.jt808.protocol.jsatl12.AlarmId;
 import com.jt808.protocol.jsatl12.T9208;
+import com.jt808.web.model.vo.AlarmItem;
+import com.jt808.web.model.vo.LocationItem;
+import com.jt808.web.repository.AlarmRepository;
+import com.jt808.web.repository.DeviceRepository;
+import com.jt808.web.repository.LocationRepository;
 import io.github.yezhihao.netmc.core.annotation.Async;
 import io.github.yezhihao.netmc.core.annotation.AsyncBatch;
 import io.github.yezhihao.netmc.core.annotation.Endpoint;
@@ -42,6 +46,15 @@ public class JT808Endpoint {
 
     @Autowired
     private MessageManager messageManager;
+
+    @Autowired
+    DeviceRepository deviceRepository;
+
+    @Autowired
+    LocationRepository locationRepository;
+
+    @Autowired
+    AlarmRepository alarmRepository;
 
     @Value("${jt-server.jt808.alarm-file.host}")
     private String host;
@@ -80,6 +93,7 @@ public class JT808Endpoint {
         DeviceInfo deviceInfo = new DeviceInfo();
         deviceInfo.setDeviceId(message.getDeviceId());
         session.setAttribute(SessionKey.DeviceInfo, deviceInfo);
+        deviceRepository.save(deviceInfo);
 
         T8100 result = new T8100();
         result.setResponseSerialNo(message.getSerialNo());
@@ -94,6 +108,7 @@ public class JT808Endpoint {
         DeviceInfo deviceInfo = new DeviceInfo();
         deviceInfo.setDeviceId(message.getToken());
         session.setAttribute(SessionKey.DeviceInfo, deviceInfo);
+        deviceRepository.save(deviceInfo);
 
         T0001 result = new T0001();
         result.setResponseSerialNo(message.getSerialNo());
@@ -116,21 +131,31 @@ public class JT808Endpoint {
     public void upgradeResponse(T0108 message, Session session) {
     }
 
-    /**
-     * Asynchronous batch processing
-     * poolSize：Reference database CPU core count
-     * maxElements：A maximum of 4000 records are accumulated and processed once
-     * maxWait：Maximum waiting time 1 second
-     */
-    @AsyncBatch(poolSize = 2, maxElements = 4000, maxWait = 1000)
-    @Mapping(types = LocationInformationReport, desc = "location information report")
-    public void locationReport(List<T0200> list) {
+    private void HandleLocationCollection(List<T0200> list)
+    {
         for (T0200 information:list) {
-            // TODO store location information in database
+            LocationItem locationItem = new LocationItem();
+            locationItem.setClientId(information.getClientId());
+            locationItem.setWarnBit(information.getWarnBit());
+            locationItem.setStatusBit(information.getStatusBit());
+            locationItem.setLatitude(information.getLatitude());
+            locationItem.setLongitude(information.getLongitude());
+            locationItem.setAltitude(information.getAltitude());
+            locationItem.setSpeed(information.getSpeed());
+            locationItem.setDateTime(information.getDateTime());
+            locationItem = locationRepository.save(locationItem);
             if(information.getAttributes().containsKey(AttributeKey.AlarmDSM)){
                 log.info("Found alarm event for Driver status monitoring");
                 AlarmDSM alarmDSM = (AlarmDSM)information.getAttributes().get(AttributeKey.AlarmDSM);
                 if(alarmDSM != null){ // FIXME this if is unnecessary
+                    AlarmItem alarmItem = new AlarmItem();
+                    alarmItem.setLocationId(locationItem.getLocationId());
+                    alarmItem.setDeviceId(alarmDSM.getAlarmId().getDeviceId());
+                    alarmItem.setDateTime(alarmDSM.getAlarmId().getDateTime());
+                    alarmItem.setSerialNo(alarmDSM.getAlarmId().getSerialNo());
+                    alarmItem.setAlarmId(AlarmItem.calculateID(alarmItem.getDeviceId(),alarmItem.getDateTime(),alarmItem.getSerialNo()));
+                    alarmRepository.save(alarmItem);
+
                     log.info("Requesting for image upload ... ");
                     T9208 request = new T9208();
                     request.setIp(host);
@@ -148,12 +173,30 @@ public class JT808Endpoint {
 
 
             }
+
+
+        }
+    }
+
+    /**
+     * Asynchronous batch processing
+     * poolSize：Reference database CPU core count
+     * maxElements：A maximum of 4000 records are accumulated and processed once
+     * maxWait：Maximum waiting time 1 second
+     */
+    @AsyncBatch(poolSize = 2, maxElements = 4000, maxWait = 1000)
+    @Mapping(types = LocationInformationReport, desc = "location information report")
+    public void locationReport(List<T0200> list) {
+        if(list != null){
+            HandleLocationCollection(list);
         }
     }
 
     @Mapping(types = BulkUploadOfPositioningData, desc = "Bulk upload of positioning data")
     public void locationBatchReport(T0704 message) {
-        // TODO iterate through items to handle in common way with locationReport
+        if(message != null && message.getItems() != null){
+            HandleLocationCollection(message.getItems());
+        }
     }
 
     @Mapping(types = {LocationInformationQueryResponse, VehicleControlResponse}, desc = "Location information query response/vehicle control response")
